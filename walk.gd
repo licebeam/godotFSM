@@ -8,7 +8,7 @@ func enter(body):
 	print('in state walk');
 	
 func exit(): 
-	print('leaving state');
+	print('leaving state walk');
 
 func update(delta):
 	if Input.is_action_pressed('up'):
