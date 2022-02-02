@@ -24,6 +24,8 @@ onready var jumpVelocity = ((2.0 * jumpHeight) / jumpTimeToPeak) * -1.0;
 onready var jumpGravity = ((-2.0 * jumpHeight) / (jumpTimeToPeak * jumpTimeToPeak)) * -1.0;
 onready var fallGravity = ((-2.0 * jumpHeight) / (jumpTimeToDescent * jumpTimeToDescent)) * -1.0;
 
+var fallSpeed = 80; # need to adjust this
+
 func getGravity():
 	return jumpGravity if velocity.y < 0.0 else fallGravity;
 	
@@ -37,6 +39,10 @@ func _physics_process(delta):
 	velocity.y += getGravity() * delta;
 	myBody.move_and_slide(velocity, Vector2.UP);
 	if !myBody.is_on_floor() && !state.name == 'jump': #transition to fall if no state active.
+		velocity.y = fallSpeed;
+		transitionTo('falling');
+	if myBody.is_on_ceiling(): #transition to fall if no state active.
+		velocity.y = 0;
 		transitionTo('falling');
 
 func _process(delta):
