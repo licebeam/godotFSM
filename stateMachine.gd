@@ -18,6 +18,7 @@ var velocity = Vector2.ZERO;
 export var jumpHeight = 100;
 export var jumpTimeToPeak = 0.5;
 export var jumpTimeToDescent = 0.5;
+export var maxSpeed = 30;
 
 onready var jumpVelocity = ((2.0 * jumpHeight) / jumpTimeToPeak) * -1.0;
 onready var jumpGravity = ((-2.0 * jumpHeight) / (jumpTimeToPeak * jumpTimeToPeak)) * -1.0;

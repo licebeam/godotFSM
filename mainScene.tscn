@@ -81,6 +81,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 77.5, 10 )
 
 [node name="Player" type="Node2D"]
 position = Vector2( 31, 35 )
@@ -113,6 +114,7 @@ initial_state = NodePath("idle")
 body = NodePath("..")
 animator = NodePath("../AnimationPlayer")
 jumpHeight = 30
+maxSpeed = 60
 
 [node name="idle" type="Node" parent="body/stateMachine"]
 script = ExtResource( 3 )
@@ -136,7 +138,7 @@ smoothing_enabled = true
 [node name="floor" type="KinematicBody2D" parent="."]
 
 [node name="ground" type="CollisionShape2D" parent="floor"]
-position = Vector2( 0, 20 )
+position = Vector2( -12.5, 20 )
 shape = SubResource( 6 )
 
 [node name="floor2" type="KinematicBody2D" parent="."]
