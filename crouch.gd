@@ -14,6 +14,8 @@ func exit():
 func update(delta):
 	if Input.is_action_pressed('down'):
 		myAnim.play('crouch')
+		if Input.is_action_just_pressed('action'):
+			stateMachine.transitionTo('crouchAttack')
 	else: 
 		stateMachine.transitionTo('idle');
 	pass

@@ -10,6 +10,8 @@ func exit():
 	pass
 
 func update(delta):
+	if Input.is_action_just_pressed('action'):
+		stateMachine.transitionTo('attack')
 	if Input.is_action_just_pressed('up'):
 		stateMachine.transitionTo('jump')
 	if Input.is_action_pressed('down'):

@@ -18,6 +18,8 @@ func update(delta):
 		# this conditional checks to make sure we aren't holding two keys at the same time.
 		stateMachine.transitionTo('idle');
 	else:
+		if Input.is_action_just_pressed('action'):
+			stateMachine.transitionTo('attack')
 		if Input.is_action_just_pressed('up'):
 			stateMachine.transitionTo('jump')
 		if Input.is_action_pressed('right'):

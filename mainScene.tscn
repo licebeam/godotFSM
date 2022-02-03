@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://somePokeSprite.png" type="Texture" id=1]
 [ext_resource path="res://stateMachine.gd" type="Script" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://crouch.gd" type="Script" id=6]
 [ext_resource path="res://jump.gd" type="Script" id=7]
 [ext_resource path="res://falling.gd" type="Script" id=8]
+[ext_resource path="res://attack.gd" type="Script" id=9]
+[ext_resource path="res://crouchAttack.gd" type="Script" id=10]
 
 [sub_resource type="TileSet" id=2]
 0/name = "somePokeSprite.png 0"
@@ -28,6 +30,37 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 4, 8 )
 
+[sub_resource type="Animation" id=8]
+resource_name = "attack"
+length = 0.15
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/path = NodePath("body/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 7, 8, 9 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath("body/stateMachine")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.133333 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "idle" ],
+"method": "transitionTo"
+} ]
+}
+
 [sub_resource type="Animation" id=5]
 resource_name = "crouch"
 loop = true
@@ -44,9 +77,40 @@ tracks/0/keys = {
 "values": [ 4 ]
 }
 
+[sub_resource type="Animation" id=9]
+resource_name = "crouchAttack"
+length = 0.15
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/path = NodePath("body/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 4, 5, 6 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath("body/stateMachine")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.133333 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "crouch" ],
+"method": "transitionTo"
+} ]
+}
+
 [sub_resource type="Animation" id=4]
 resource_name = "idle"
-length = 0.0166667
+length = 0.583334
 loop = true
 step = 0.0166667
 tracks/0/type = "value"
@@ -56,10 +120,28 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.0833333, 0.166667, 0.266667, 0.35 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0 ]
+"values": [ 13, 14, 15, 16, 13 ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "jump"
+length = 0.15
+loop = true
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/path = NodePath("body/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 10, 12, 10 ]
 }
 
 [sub_resource type="Animation" id=3]
@@ -101,12 +183,16 @@ shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="body"]
 texture = ExtResource( 5 )
-hframes = 5
+hframes = 17
+frame = 8
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="body"]
 root_node = NodePath("../..")
+anims/attack = SubResource( 8 )
 anims/crouch = SubResource( 5 )
+anims/crouchAttack = SubResource( 9 )
 anims/idle = SubResource( 4 )
+anims/jump = SubResource( 7 )
 anims/walk = SubResource( 3 )
 
 [node name="stateMachine" type="Node" parent="body"]
@@ -131,6 +217,12 @@ script = ExtResource( 7 )
 
 [node name="falling" type="Node" parent="body/stateMachine"]
 script = ExtResource( 8 )
+
+[node name="attack" type="Node" parent="body/stateMachine"]
+script = ExtResource( 9 )
+
+[node name="crouchAttack" type="Node" parent="body/stateMachine"]
+script = ExtResource( 10 )
 
 [node name="Camera2D" type="Camera2D" parent="body"]
 current = true

@@ -7,22 +7,26 @@ var myHitBox;
 var speed = 0;
 var speedGain = 3;
 
-var vector = Vector2();
 func enter(body, animator): 
 	myBody = body;
 	myAnim = animator;
-	myAnim.play('idle');
+	myAnim.play('jump');
 	stateMachine.velocity.y = stateMachine.jumpVelocity;
-	speed = 0;
+	speed = 0
 	
 func exit(): 
 	pass
 
 func update(delta):
+	if Input.is_action_just_released('up'): # makes it so we can hop jump easily
+		if(stateMachine.velocity.y <= -1):
+			stateMachine.velocity.y = 0
 	if Input.is_action_pressed('right') && Input.is_action_pressed('left'):
 		# this conditional checks to make sure we aren't holding two keys at the same time.
 		pass
 	else:
+		if Input.is_action_just_pressed('action'):
+			stateMachine.transitionTo('attack')
 		if Input.is_action_pressed('right'):
 			speed += speedGain;
 			get_node('../../Sprite').set_flip_h(false);
@@ -38,5 +42,4 @@ func update(delta):
 		
 	if Input.is_action_just_released('right') || Input.is_action_just_released('left'):
 		speed = 0;
-	pass 
 
