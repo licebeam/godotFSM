@@ -22,7 +22,7 @@ export var jumpHeight = 100;
 export var jumpTimeToPeak = 0.4;
 export var jumpTimeToDescent = 0.3;
 export var maxSpeed = 30;
-export var maxFallCoyote = 6;
+export var maxFallCoyote = 3;
 var fallCoyote = maxFallCoyote; #coyote time is used to help players from making mistakes, allows buffer time before falling.
 
 onready var jumpVelocity = ((2.0 * jumpHeight) / jumpTimeToPeak) * -1.0;

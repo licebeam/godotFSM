@@ -3,13 +3,17 @@ extends Node
 var stateMachine = null;
 
 func enter(body, animator): 
-	stateMachine.velocity.x = 0;
 	animator.play('idle')
 	
 func exit(): 
 	pass
 
 func update(delta):
+	if(stateMachine.velocity.x > 0):
+		stateMachine.velocity.x -= stateMachine.velocity.x;
+	if(stateMachine.velocity.x < 0): 
+		stateMachine.velocity.x -= stateMachine.velocity.x;
+		
 	if Input.is_action_just_pressed('action'):
 		stateMachine.transitionTo('attack')
 	if Input.is_action_just_pressed('up'):

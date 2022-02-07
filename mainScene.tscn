@@ -184,7 +184,7 @@ shape = SubResource( 1 )
 [node name="Sprite" type="Sprite" parent="body"]
 texture = ExtResource( 5 )
 hframes = 17
-frame = 7
+frame = 13
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="body"]
 root_node = NodePath("../..")
@@ -237,5 +237,5 @@ shape = SubResource( 6 )
 [node name="floor2" type="KinematicBody2D" parent="."]
 
 [node name="ground" type="CollisionShape2D" parent="floor2"]
-position = Vector2( 22, 64 )
+position = Vector2( 120, 0 )
 shape = SubResource( 6 )

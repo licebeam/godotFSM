@@ -8,7 +8,7 @@ var speedGain = 3;
 func enter(body, anim): 
 	myBody = body;
 	anim.play('walk')
-	speed = 0;
+	speed = stateMachine.getVelocityX();
 	
 func exit(): 
 	pass
