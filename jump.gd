@@ -18,6 +18,7 @@ func exit():
 	pass
 
 func update(delta):
+	stateMachine.fallCoyote = 0;
 	if Input.is_action_just_released('up'): # makes it so we can hop jump easily
 		if(stateMachine.velocity.y <= -1):
 			stateMachine.velocity.y = 0

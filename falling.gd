@@ -16,6 +16,7 @@ func exit():
 	pass
 
 func update(delta):
+	stateMachine.fallCoyote = 0;
 	if Input.is_action_pressed('right') && Input.is_action_pressed('left'):
 		# this conditional checks to make sure we aren't holding two keys at the same time.
 		pass
