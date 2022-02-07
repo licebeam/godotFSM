@@ -13,6 +13,9 @@ onready var myBody = get_node(body);
 onready var anim = get_node(animator);
 onready var state = get_node(initial_state);
 
+#save last state
+var lastState = 'idle';
+
 #Movement Variables - jump / falling from youtube tutorial.
 var velocity = Vector2.ZERO;
 export var jumpHeight = 100;
@@ -24,16 +27,10 @@ onready var jumpVelocity = ((2.0 * jumpHeight) / jumpTimeToPeak) * -1.0;
 onready var jumpGravity = ((-2.0 * jumpHeight) / (jumpTimeToPeak * jumpTimeToPeak)) * -1.0;
 onready var fallGravity = ((-2.0 * jumpHeight) / (jumpTimeToDescent * jumpTimeToDescent)) * -1.0;
 
-var fallSpeed = 200; # need to adjust this
-
 func getGravity():
-	if state.name != 'falling':
-		return jumpGravity if velocity.y < 0.0 else fallGravity;
-	else:
-		return fallSpeed;
+	return jumpGravity if velocity.y < 0.0 else fallGravity;
 	
 func _ready():
-	print(PlayerInfo.health)
 	for child in get_children():
 		child.stateMachine = self;
 	state.enter(myBody, anim);
@@ -45,16 +42,27 @@ func _physics_process(delta):
 		transitionTo('falling');
 	if myBody.is_on_ceiling(): #transition to fall if no state active.
 		velocity.y = 0;
-		transitionTo('falling');
-
+		
+func getVelocityX():
+	if(get_node('../Sprite').flip_h):
+		return -velocity.x;
+	else: 
+		return velocity.x;
+		
 func _process(delta):
 	myBody = get_node(body);
 	state.update(delta);
 	
 func transitionTo(targetState):
-	if !has_node(targetState): 
+	var stateToChangeTo = targetState; # using animations to set this correctly. ie: lastState as a string
+	if(targetState == 'lastState'): #this handles cases where we want to transition back to jump
+		stateToChangeTo = lastState;
+		if(stateToChangeTo == 'jump'): 
+			stateToChangeTo = 'falling';
+	lastState = state.name;
+	if !has_node(stateToChangeTo): 
 		return;
 	state.exit();
-	state = get_node(targetState);
+	state = get_node(stateToChangeTo);
 	state.enter(myBody, anim);
 	emit_signal("trasitioned", state.name);

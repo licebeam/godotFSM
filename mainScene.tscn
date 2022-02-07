@@ -56,7 +56,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0.133333 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
-"args": [ "idle" ],
+"args": [ "lastState" ],
 "method": "transitionTo"
 } ]
 }
@@ -184,7 +184,7 @@ shape = SubResource( 1 )
 [node name="Sprite" type="Sprite" parent="body"]
 texture = ExtResource( 5 )
 hframes = 17
-frame = 8
+frame = 7
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="body"]
 root_node = NodePath("../..")

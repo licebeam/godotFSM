@@ -12,7 +12,7 @@ func enter(body, animator):
 	myAnim = animator;
 	myAnim.play('jump');
 	stateMachine.velocity.y = stateMachine.jumpVelocity;
-	speed = 0
+	speed = stateMachine.getVelocityX();
 	
 func exit(): 
 	pass
