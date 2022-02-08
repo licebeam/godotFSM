@@ -9,6 +9,7 @@ export(NodePath) var initial_state;
 export(NodePath) var body;
 export(NodePath) var animator;
 export (PackedScene) var smokePuffScene
+export (PackedScene) var basicSlashScene
 
 onready var myBody = get_node(body);
 onready var anim = get_node(animator);
@@ -40,6 +41,12 @@ func spawnDust():
 	add_child(puff)
 	puff.setPosition(myBody.position)
 
+func spawnSlash(crouch = false):
+	# generate blade sprite.
+	var slash = basicSlashScene.instance()
+	myBody.add_child(slash)
+	slash.setPosition(get_node('../Sprite').flip_h, crouch)
+	
 func _ready():
 	for child in get_children():
 		child.stateMachine = self;
