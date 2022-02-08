@@ -9,9 +9,7 @@ func enter(body, anim):
 	myBody = body;
 	anim.play('walk')
 	speed = stateMachine.getVelocityX();
-	print('walk', stateMachine.velocity.x)
-	print('speed', speed)
-	
+
 func exit(): 
 	pass
 
