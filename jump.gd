@@ -38,7 +38,9 @@ func update(delta):
 			get_node('../../Sprite').set_flip_h(true);
 			if speed <= stateMachine.maxSpeed: 
 				stateMachine.velocity.x = -speed;
+				
 	if myBody.is_on_floor(): 
+		stateMachine.spawnDust();
 		stateMachine.transitionTo('idle');
 		
 	if Input.is_action_just_released('right') || Input.is_action_just_released('left'):

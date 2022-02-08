@@ -8,6 +8,7 @@ signal trasitioned(stateName);
 export(NodePath) var initial_state;
 export(NodePath) var body;
 export(NodePath) var animator;
+export (PackedScene) var smokePuffScene
 
 onready var myBody = get_node(body);
 onready var anim = get_node(animator);
@@ -18,11 +19,12 @@ var lastState = 'idle';
 
 #Movement Variables - jump / falling from youtube tutorial.
 var velocity = Vector2.ZERO;
-export var jumpHeight = 100;
+export var jumpHeight = 30;
 export var jumpTimeToPeak = 0.4;
 export var jumpTimeToDescent = 0.3;
 export var maxSpeed = 30;
 export var maxFallCoyote = 3;
+export var slideStop = 6; # 6 frames to stop.
 var fallCoyote = maxFallCoyote; #coyote time is used to help players from making mistakes, allows buffer time before falling.
 
 onready var jumpVelocity = ((2.0 * jumpHeight) / jumpTimeToPeak) * -1.0;
@@ -31,7 +33,13 @@ onready var fallGravity = ((-2.0 * jumpHeight) / (jumpTimeToDescent * jumpTimeTo
 
 func getGravity():
 	return jumpGravity if velocity.y < 0.0 else fallGravity;
-		
+
+func spawnDust():
+	# generate smoke puff.
+	var puff = smokePuffScene.instance()
+	add_child(puff)
+	puff.setPosition(myBody.position)
+
 func _ready():
 	for child in get_children():
 		child.stateMachine = self;
