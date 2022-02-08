@@ -45,4 +45,5 @@ func update(delta):
 		
 	if Input.is_action_just_released('right') || Input.is_action_just_released('left'):
 		speed = 0;
+		stateMachine.velocity.x = 0;
 

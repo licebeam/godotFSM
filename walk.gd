@@ -35,9 +35,12 @@ func update(delta):
 		else: 
 			stateMachine.transitionTo('idle');
 		
-
 		if Input.is_action_just_released('right') || Input.is_action_just_released('left'):
 			speed = 0;
+			stateMachine.velocity.x = 0;
+			stateMachine.transitionTo('idle');
 			
 		if Input.is_action_pressed('down'):
+			speed = 0;
+			stateMachine.velocity.x = 0;
 			stateMachine.transitionTo('crouch');

@@ -4,7 +4,7 @@ var stateMachine = null;
 
 func enter(body, animator): 
 	animator.play('idle')
-	
+
 func exit(): 
 	pass
 

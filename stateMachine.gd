@@ -83,6 +83,8 @@ func transitionTo(targetState):
 		stateToChangeTo = lastState;
 		if(stateToChangeTo == 'jump'): 
 			stateToChangeTo = 'falling';
+		if(stateToChangeTo == 'walk'): # fixes bug when trasitioning between attack and chaning move direction.
+			stateToChangeTo = 'idle';
 	lastState = state.name;
 	if !has_node(stateToChangeTo): 
 		return;
