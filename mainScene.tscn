@@ -1,17 +1,19 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://somePokeSprite.png" type="Texture" id=1]
-[ext_resource path="res://stateMachine.gd" type="Script" id=2]
-[ext_resource path="res://idle.gd" type="Script" id=3]
-[ext_resource path="res://walk.gd" type="Script" id=4]
+[ext_resource path="res://player/stateMachine.gd" type="Script" id=2]
+[ext_resource path="res://player/idle.gd" type="Script" id=3]
+[ext_resource path="res://player/walk.gd" type="Script" id=4]
 [ext_resource path="res://GromGBC.png" type="Texture" id=5]
-[ext_resource path="res://crouch.gd" type="Script" id=6]
-[ext_resource path="res://jump.gd" type="Script" id=7]
-[ext_resource path="res://falling.gd" type="Script" id=8]
-[ext_resource path="res://attack.gd" type="Script" id=9]
-[ext_resource path="res://crouchAttack.gd" type="Script" id=10]
-[ext_resource path="res://smokePuff.tscn" type="PackedScene" id=11]
-[ext_resource path="res://basicSlash.tscn" type="PackedScene" id=12]
+[ext_resource path="res://player/crouch.gd" type="Script" id=6]
+[ext_resource path="res://player/jump.gd" type="Script" id=7]
+[ext_resource path="res://player/falling.gd" type="Script" id=8]
+[ext_resource path="res://player/attack.gd" type="Script" id=9]
+[ext_resource path="res://player/crouchAttack.gd" type="Script" id=10]
+[ext_resource path="res://effects/smokePuff.tscn" type="PackedScene" id=11]
+[ext_resource path="res://player/basicSlash.tscn" type="PackedScene" id=12]
+[ext_resource path="res://hurt.gd" type="Script" id=13]
+[ext_resource path="res://mainCamera.gd" type="Script" id=14]
 
 [sub_resource type="TileSet" id=2]
 0/name = "somePokeSprite.png 0"
@@ -31,6 +33,8 @@
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 4, 8 )
+
+[sub_resource type="ShaderMaterial" id=11]
 
 [sub_resource type="Animation" id=8]
 resource_name = "attack"
@@ -116,6 +120,52 @@ tracks/1/keys = {
 } ]
 }
 
+[sub_resource type="Animation" id=12]
+resource_name = "hurt"
+tracks/0/type = "value"
+tracks/0/path = NodePath("body/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 8 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath("body/stateMachine")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "knockBack"
+}, {
+"args": [  ],
+"method": "setNotHurt"
+} ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("body/stateMachine")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "setHitShader"
+} ]
+}
+
 [sub_resource type="Animation" id=4]
 resource_name = "idle"
 length = 0.583334
@@ -187,11 +237,15 @@ tracks/1/keys = {
 } ]
 }
 
+[sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 5, 9 )
+
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 77.5, 10 )
 
 [node name="Player" type="Node2D"]
 position = Vector2( 31, 35 )
+z_index = 1
 
 [node name="TileMap" type="TileMap" parent="."]
 visible = false
@@ -207,15 +261,17 @@ position = Vector2( 0, -21 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="body"]
+material = SubResource( 11 )
 texture = ExtResource( 5 )
 hframes = 17
-frame = 4
+frame = 8
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="body"]
 root_node = NodePath("../..")
 anims/attack = SubResource( 8 )
 anims/crouch = SubResource( 5 )
 anims/crouchAttack = SubResource( 9 )
+anims/hurt = SubResource( 12 )
 anims/idle = SubResource( 4 )
 anims/jump = SubResource( 7 )
 anims/walk = SubResource( 3 )
@@ -225,8 +281,10 @@ script = ExtResource( 2 )
 initial_state = NodePath("idle")
 body = NodePath("..")
 animator = NodePath("../AnimationPlayer")
+sprite = NodePath("../Sprite")
 smokePuffScene = ExtResource( 11 )
 basicSlashScene = ExtResource( 12 )
+area2d = NodePath("../playerHurtBox")
 maxSpeed = 60
 
 [node name="idle" type="Node" parent="body/stateMachine"]
@@ -250,17 +308,35 @@ script = ExtResource( 9 )
 [node name="crouchAttack" type="Node" parent="body/stateMachine"]
 script = ExtResource( 10 )
 
-[node name="Camera2D" type="Camera2D" parent="body"]
+[node name="hurt" type="Node" parent="body/stateMachine"]
+script = ExtResource( 13 )
+
+[node name="mainCamera" type="Camera2D" parent="body"]
 current = true
 smoothing_enabled = true
+script = ExtResource( 14 )
+maxShakeTime = 8
+
+[node name="playerHurtBox" type="Area2D" parent="body"]
+position = Vector2( 0, 21 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="body/playerHurtBox"]
+modulate = Color( 0.541176, 0.294118, 0.294118, 1 )
+self_modulate = Color( 0.960938, 0.0525513, 0.0525513, 1 )
+position = Vector2( 0, -22 )
+shape = SubResource( 10 )
 
 [node name="floor" type="KinematicBody2D" parent="."]
+collision_layer = 3
+collision_mask = 3
 
 [node name="ground" type="CollisionShape2D" parent="floor"]
 position = Vector2( -12.5, 20 )
 shape = SubResource( 6 )
 
 [node name="floor2" type="KinematicBody2D" parent="."]
+collision_layer = 3
+collision_mask = 3
 
 [node name="ground" type="CollisionShape2D" parent="floor2"]
 position = Vector2( 120, 0 )

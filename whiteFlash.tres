@@ -1,0 +1,43 @@
+[gd_resource type="VisualShader" load_steps=2 format=2]
+
+[sub_resource type="VisualShaderNodeTexture" id=1]
+source = 2
+
+[resource]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// Texture:5
+	vec3 n_out5p0;
+	float n_out5p1;
+	{
+		vec4 _tex_read = texture(TEXTURE , UV.xy);
+		n_out5p0 = _tex_read.rgb;
+		n_out5p1 = _tex_read.a;
+	}
+
+// Output:0
+	COLOR.a = n_out5p1;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+graph_offset = Vector2( 107, 10.75 )
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2( 1000, 100 )
+nodes/fragment/5/node = SubResource( 1 )
+nodes/fragment/5/position = Vector2( 340, 60 )
+nodes/fragment/connections = PoolIntArray( 5, 1, 0, 1 )

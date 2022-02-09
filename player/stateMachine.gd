@@ -8,10 +8,15 @@ signal trasitioned(stateName);
 export(NodePath) var initial_state;
 export(NodePath) var body;
 export(NodePath) var animator;
+export(NodePath) var sprite;
 export (PackedScene) var smokePuffScene
 export (PackedScene) var basicSlashScene
 
+export(NodePath) var area2d;
+onready var collider = get_node(area2d);
+
 onready var myBody = get_node(body);
+onready var mySprite = get_node(sprite);
 onready var anim = get_node(animator);
 onready var state = get_node(initial_state);
 
@@ -32,14 +37,45 @@ onready var jumpVelocity = ((2.0 * jumpHeight) / jumpTimeToPeak) * -1.0;
 onready var jumpGravity = ((-2.0 * jumpHeight) / (jumpTimeToPeak * jumpTimeToPeak)) * -1.0;
 onready var fallGravity = ((-2.0 * jumpHeight) / (jumpTimeToDescent * jumpTimeToDescent)) * -1.0;
 
+#shader
+onready var hitShader = preload("res://whiteFlash.tres")
+
+#external states 
+var hurt = false; # handles taking no damage
+var enemyBody = null;
+var maxInvulnTimer = 120;
+var invulnTimer = 0;
+
 func getGravity():
 	return jumpGravity if velocity.y < 0.0 else fallGravity;
 
+func setNotHurt():
+	transitionTo('idle')
+	hurt = false;
+	#mySprite.material.shader = null; #set to flashing 
+	invulnTimer = maxInvulnTimer;
+
+func knockBack():
+	spawnDust()
+	if myBody.global_position.x > enemyBody.global_position.x:
+		velocity.y = jumpVelocity;
+		velocity.x = 160
+	if myBody.global_position.x < enemyBody.global_position.x:
+		velocity.y = jumpVelocity;
+		velocity.x = -160
+		
+func setHitShader():
+	mySprite.material.shader = hitShader;
+
+func turnOffHitShader():
+	mySprite.material.shader = null;
+	
 func spawnDust():
 	# generate smoke puff.
+	var location = get_node('/root/World/')
 	var puff = smokePuffScene.instance()
-	add_child(puff)
-	puff.setPosition(myBody.position)
+	location.add_child(puff)
+	puff.setPosition(myBody.global_position)
 
 func spawnSlash(crouch = false):
 	# generate blade sprite.
@@ -53,12 +89,12 @@ func _ready():
 	state.enter(myBody, anim);
 
 func _physics_process(delta):
-	if(fallCoyote >= 1 && state.name != 'jump'):
+	if(fallCoyote >= 1 && state.name != 'jump' && state.name != 'hurt'):
 		velocity.y = 0
 	else: 
 		velocity.y += getGravity() * delta;
 	myBody.move_and_slide(velocity, Vector2.UP);
-	if !myBody.is_on_floor() && !state.name == 'jump' && !state.name == 'attack' && fallCoyote <= 0: #transition to fall if no state active.
+	if !myBody.is_on_floor() && !state.name == 'jump' && !state.name == 'attack' && !state.name == 'hurt' && fallCoyote <= 0: #transition to fall if no state active.
 		transitionTo('falling');
 	if myBody.is_on_ceiling(): #transition to fall if no state active.
 		velocity.y = 0;
@@ -77,6 +113,18 @@ func _process(delta):
 	if(myBody.is_on_floor()):
 		fallCoyote = maxFallCoyote;
 	
+	#handle hitbox - stuff that makes me take damage
+	var overlaps = collider.get_overlapping_areas()
+	if(overlaps.size() >= 1 && invulnTimer <= 0):
+		if(overlaps[0].name == 'spireHitBox'):
+			transitionTo('hurt');
+			enemyBody = overlaps[0].get_parent()
+			
+	if invulnTimer >= 1: #if we are invulnerable count down. set by animation.
+		invulnTimer -= 1;
+		if invulnTimer <= 0: #if we are invulnerable count down. set by animation.
+			turnOffHitShader()
+
 func transitionTo(targetState):
 	var stateToChangeTo = targetState; # using animations to set this correctly. ie: lastState as a string
 	if(targetState == 'lastState'): #this handles cases where we want to transition back to jump

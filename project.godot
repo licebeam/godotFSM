@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "Node2D",
 "class": "Character",
 "language": "GDScript",
-"path": "res://player.gd"
+"path": "res://player/player.gd"
 } ]
 _global_script_class_icons={
 "Character": ""
@@ -21,7 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="roguemon"
-run/main_scene="res://mainScene.tscn"
+run/main_scene="res://World.tscn"
 config/icon="res://icon.png"
 
 [display]

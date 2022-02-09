@@ -1,0 +1,63 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://effects/fireSpireGBC.png" type="Texture" id=1]
+[ext_resource path="res://enemy/fireSpire.gd" type="Script" id=2]
+
+[sub_resource type="Animation" id=2]
+resource_name = "idle"
+length = 0.133333
+loop = true
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.0666667 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 5, 4 ]
+}
+
+[sub_resource type="Animation" id=1]
+resource_name = "spire"
+length = 0.266667
+loop = true
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.0666667, 0.133333, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 5, 4, 3, 2 ]
+}
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 4, 10.5 )
+
+[node name="fireSpire" type="Node2D"]
+script = ExtResource( 2 )
+animator = NodePath("AnimationPlayer")
+
+[node name="Sprite" type="Sprite" parent="."]
+z_index = 4
+texture = ExtResource( 1 )
+hframes = 6
+frame = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/idle = SubResource( 2 )
+anims/spire = SubResource( 1 )
+
+[node name="spireHitBox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="spireHitBox"]
+position = Vector2( 0, -2.5 )
+shape = SubResource( 3 )
