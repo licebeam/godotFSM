@@ -223,7 +223,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=10]
-extents = Vector2( 5, 8.5 )
+extents = Vector2( 5, 9 )
 
 [sub_resource type="RectangleShape2D" id=14]
 extents = Vector2( 3, 1 )
@@ -301,10 +301,11 @@ position = Vector2( 0, 21 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="body/playerHurtBox"]
 modulate = Color( 0.541176, 0.294118, 0.294118, 1 )
 self_modulate = Color( 0.960938, 0.0525513, 0.0525513, 1 )
-position = Vector2( 0, -22.5 )
+position = Vector2( 0, -22 )
 shape = SubResource( 10 )
 
 [node name="footBox" type="Area2D" parent="body"]
+visible = false
 position = Vector2( 0, 21 )
 
 [node name="footColliderBox" type="CollisionShape2D" parent="body/footBox"]

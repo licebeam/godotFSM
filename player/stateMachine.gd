@@ -115,9 +115,10 @@ func _process(delta):
 	#handle hitbox - stuff that makes me take damage
 	var overlaps = collider.get_overlapping_areas()
 	if(overlaps.size() >= 1 && invulnTimer <= 0):
-		if(overlaps[0].name == 'spireHitBox'):
-			transitionTo('hurt');
-			enemyBody = overlaps[0].get_parent()
+		for over in overlaps:
+			if(over.name == 'spireHitBox'):
+				transitionTo('hurt');
+				enemyBody = over.get_parent()
 			
 	if invulnTimer >= 1: #if we are invulnerable count down. set by animation.
 		invulnTimer -= 1;

@@ -73,8 +73,12 @@ position = Vector2( -72, 41 )
 [node name="rebuildPlatform4" parent="." instance=ExtResource( 4 )]
 position = Vector2( -96, 41 )
 
-[node name="rebuildPlatform" parent="rebuildPlatform4" instance=ExtResource( 4 )]
-position = Vector2( -8, 0 )
+[node name="rebuildPlatform5" parent="." instance=ExtResource( 4 )]
+position = Vector2( -104, 41 )
+animator = NodePath("../rebuildPlatform/AnimationPlayer")
+body = NodePath("../rebuildPlatform/KinematicBody2D/CollisionShape2D")
+area = NodePath("../rebuildPlatform/Area2D")
+collider = NodePath("../rebuildPlatform/Area2D/CollisionShape2D")
 
 [node name="TileMap" type="TileMap" parent="."]
 position = Vector2( 0, -3 )
@@ -87,13 +91,13 @@ tile_data = PoolIntArray( 196616, 0, 0, 196617, 0, 0, 196618, 0, 0, 196619, 0, 0
 [node name="GROUND" type="Node" parent="."]
 
 [node name="ground" parent="GROUND" instance=ExtResource( 6 )]
-position = Vector2( -42, 57 )
+position = Vector2( -42, 56 )
 
 [node name="ground2" parent="GROUND" instance=ExtResource( 6 )]
-position = Vector2( -274, 57 )
+position = Vector2( -274, 56 )
 
 [node name="ground3" parent="GROUND" instance=ExtResource( 6 )]
-position = Vector2( -158, 57 )
+position = Vector2( -158, 56 )
 
 [node name="ground4" parent="GROUND" instance=ExtResource( 6 )]
 position = Vector2( 74, 32 )
@@ -102,4 +106,4 @@ position = Vector2( 74, 32 )
 position = Vector2( 74, 51 )
 
 [node name="ground2" parent="." instance=ExtResource( 6 )]
-position = Vector2( 190, 32 )
+position = Vector2( 190, 31 )
