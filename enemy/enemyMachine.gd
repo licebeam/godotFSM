@@ -117,11 +117,12 @@ func _process(delta):
 		
 	var overlaps = collider.get_overlapping_areas()
 	if(overlaps.size() >= 1 && !hurt):
-		if(overlaps[0].name == 'slashArea'):
-			transitionTo('hurt')
-			hurt = true;
-			health -= 1;
-			spawnHitSpark()
+		for over in overlaps:
+			if(over.name == 'slashArea'):
+				transitionTo('hurt')
+				hurt = true;
+				health -= 1;
+				spawnHitSpark()
 
 func transitionTo(targetState):
 	var stateToChangeTo = targetState; # using animations to set this correctly. ie: lastState as a string

@@ -1,6 +1,5 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=25 format=2]
 
-[ext_resource path="res://somePokeSprite.png" type="Texture" id=1]
 [ext_resource path="res://player/stateMachine.gd" type="Script" id=2]
 [ext_resource path="res://player/idle.gd" type="Script" id=3]
 [ext_resource path="res://player/walk.gd" type="Script" id=4]
@@ -15,26 +14,10 @@
 [ext_resource path="res://hurt.gd" type="Script" id=13]
 [ext_resource path="res://mainCamera.gd" type="Script" id=14]
 
-[sub_resource type="TileSet" id=2]
-0/name = "somePokeSprite.png 0"
-0/texture = ExtResource( 1 )
-0/tex_offset = Vector2( 0, 0 )
-0/modulate = Color( 1, 1, 1, 1 )
-0/region = Rect2( 32, 0, 16, 16 )
-0/tile_mode = 0
-0/occluder_offset = Vector2( 0, 0 )
-0/navigation_offset = Vector2( 0, 0 )
-0/shape_offset = Vector2( 0, 0 )
-0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-0/shape_one_way = false
-0/shape_one_way_margin = 0.0
-0/shapes = [  ]
-0/z_index = 0
-
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 4, 8 )
+extents = Vector2( 3, 8 )
 
-[sub_resource type="ShaderMaterial" id=11]
+[sub_resource type="ShaderMaterial" id=13]
 
 [sub_resource type="Animation" id=8]
 resource_name = "attack"
@@ -122,6 +105,8 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id=12]
 resource_name = "hurt"
+length = 0.2
+step = 0.0166667
 tracks/0/type = "value"
 tracks/0/path = NodePath("body/Sprite:frame")
 tracks/0/interp = 1
@@ -141,7 +126,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 1 ),
+"times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "values": [ {
 "args": [  ],
@@ -238,21 +223,14 @@ tracks/1/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=10]
-extents = Vector2( 5, 9 )
+extents = Vector2( 5, 8.5 )
 
-[sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 77.5, 10 )
+[sub_resource type="RectangleShape2D" id=14]
+extents = Vector2( 3, 1 )
 
 [node name="Player" type="Node2D"]
 position = Vector2( 31, 35 )
 z_index = 1
-
-[node name="TileMap" type="TileMap" parent="."]
-visible = false
-tile_set = SubResource( 2 )
-cell_size = Vector2( 16, 16 )
-format = 1
-tile_data = PoolIntArray( -851947, 0, 0, -65538, 0, 0, -65537, 0, 0, -131072, 0, 0, -131071, 0, 0, -2, 0, 0, -1, 0, 0, -65536, 0, 0, -65535, 0, 0, 65534, 0, 0, 65535, 0, 0, 0, 0, 0, 1, 0, 0, 131070, 0, 0, 131071, 0, 0, 65536, 0, 0, 65537, 0, 0 )
 
 [node name="body" type="KinematicBody2D" parent="."]
 position = Vector2( 0, -21 )
@@ -261,7 +239,7 @@ position = Vector2( 0, -21 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="body"]
-material = SubResource( 11 )
+material = SubResource( 13 )
 texture = ExtResource( 5 )
 hframes = 17
 frame = 8
@@ -323,21 +301,12 @@ position = Vector2( 0, 21 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="body/playerHurtBox"]
 modulate = Color( 0.541176, 0.294118, 0.294118, 1 )
 self_modulate = Color( 0.960938, 0.0525513, 0.0525513, 1 )
-position = Vector2( 0, -22 )
+position = Vector2( 0, -22.5 )
 shape = SubResource( 10 )
 
-[node name="floor" type="KinematicBody2D" parent="."]
-collision_layer = 3
-collision_mask = 3
+[node name="footBox" type="Area2D" parent="body"]
+position = Vector2( 0, 21 )
 
-[node name="ground" type="CollisionShape2D" parent="floor"]
-position = Vector2( -12.5, 20 )
-shape = SubResource( 6 )
-
-[node name="floor2" type="KinematicBody2D" parent="."]
-collision_layer = 3
-collision_mask = 3
-
-[node name="ground" type="CollisionShape2D" parent="floor2"]
-position = Vector2( 120, 0 )
-shape = SubResource( 6 )
+[node name="footColliderBox" type="CollisionShape2D" parent="body/footBox"]
+position = Vector2( 0, -12 )
+shape = SubResource( 14 )

@@ -1,12 +1,47 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://mainScene.tscn" type="PackedScene" id=1]
 [ext_resource path="res://enemy/sackKnight.tscn" type="PackedScene" id=2]
 [ext_resource path="res://enemy/fireSpire.tscn" type="PackedScene" id=3]
+[ext_resource path="res://platforms/rebuildPlatform.tscn" type="PackedScene" id=4]
+[ext_resource path="res://superBasicTilesGBC.png" type="Texture" id=5]
+[ext_resource path="res://platforms/ground.tscn" type="PackedScene" id=6]
+
+[sub_resource type="TileSet" id=1]
+0/name = "superBasicTilesGBC.png 0"
+0/texture = ExtResource( 5 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 8, 0, 8, 8 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape_one_way = false
+0/shape_one_way_margin = 0.0
+0/shapes = [  ]
+0/z_index = 0
+1/name = "superBasicTilesGBC.png 1"
+1/texture = ExtResource( 5 )
+1/tex_offset = Vector2( 0, 0 )
+1/modulate = Color( 1, 1, 1, 1 )
+1/region = Rect2( 16, 0, 8, 8 )
+1/tile_mode = 0
+1/occluder_offset = Vector2( 0, 0 )
+1/navigation_offset = Vector2( 0, 0 )
+1/shape_offset = Vector2( 0, 0 )
+1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+1/shape_one_way = false
+1/shape_one_way_margin = 0.0
+1/shapes = [  ]
+1/z_index = 0
 
 [node name="World" type="Node2D"]
+position = Vector2( 0, 1 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 22, 35 )
 
 [node name="sackKnight" parent="." instance=ExtResource( 2 )]
 position = Vector2( -51, 33 )
@@ -18,10 +53,53 @@ position = Vector2( 134, 11 )
 position = Vector2( 78, 13 )
 
 [node name="fireSpire" parent="." instance=ExtResource( 3 )]
-position = Vector2( 179, 17 )
+position = Vector2( 179, 13 )
 
 [node name="fireSpire2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 189, 17 )
+position = Vector2( 189, 13 )
 
 [node name="fireSpire3" parent="." instance=ExtResource( 3 )]
 position = Vector2( -20, 37 )
+
+[node name="rebuildPlatform" parent="." instance=ExtResource( 4 )]
+position = Vector2( -88, 41 )
+
+[node name="rebuildPlatform2" parent="." instance=ExtResource( 4 )]
+position = Vector2( -80, 41 )
+
+[node name="rebuildPlatform3" parent="." instance=ExtResource( 4 )]
+position = Vector2( -72, 41 )
+
+[node name="rebuildPlatform4" parent="." instance=ExtResource( 4 )]
+position = Vector2( -96, 41 )
+
+[node name="rebuildPlatform" parent="rebuildPlatform4" instance=ExtResource( 4 )]
+position = Vector2( -8, 0 )
+
+[node name="TileMap" type="TileMap" parent="."]
+position = Vector2( 0, -3 )
+tile_set = SubResource( 1 )
+cell_size = Vector2( 8, 8 )
+cell_quadrant_size = 8
+format = 1
+tile_data = PoolIntArray( 196616, 0, 0, 196617, 0, 0, 196618, 0, 0, 196619, 0, 0, 196620, 0, 0, 196621, 0, 0, 196622, 0, 0, 196623, 0, 0, 196624, 0, 0, 196625, 0, 0, 196626, 0, 0, 196627, 0, 0, 196628, 0, 0, 196629, 0, 0, 196630, 0, 0, 196631, 0, 0, 196632, 0, 0, 196633, 0, 0, 196634, 0, 0, 196635, 0, 0, 262152, 0, 0, 327688, 0, 0, 458723, 0, 0, 458724, 0, 0, 458725, 0, 0, 458726, 0, 0, 458727, 0, 0, 458728, 0, 0, 458729, 0, 0, 458730, 0, 0, 458731, 0, 0, 458732, 0, 0, 458733, 0, 0, 458734, 0, 0, 458735, 0, 0, 458736, 0, 0, 458737, 0, 0, 458738, 0, 0, 458739, 0, 0, 458740, 0, 0, 458741, 0, 0, 458742, 0, 0, 458743, 0, 0, 458744, 0, 0, 458745, 0, 0, 458746, 0, 0, 458747, 0, 0, 458748, 0, 0, 458749, 0, 0, 458750, 0, 0, 458751, 0, 0, 393216, 0, 0, 393217, 0, 0, 393218, 0, 0, 393219, 0, 0, 393220, 0, 0, 393221, 0, 0, 393222, 0, 0, 393223, 0, 0, 524270, 0, 0 )
+
+[node name="GROUND" type="Node" parent="."]
+
+[node name="ground" parent="GROUND" instance=ExtResource( 6 )]
+position = Vector2( -42, 57 )
+
+[node name="ground2" parent="GROUND" instance=ExtResource( 6 )]
+position = Vector2( -274, 57 )
+
+[node name="ground3" parent="GROUND" instance=ExtResource( 6 )]
+position = Vector2( -158, 57 )
+
+[node name="ground4" parent="GROUND" instance=ExtResource( 6 )]
+position = Vector2( 74, 32 )
+
+[node name="ground" parent="." instance=ExtResource( 6 )]
+position = Vector2( 74, 51 )
+
+[node name="ground2" parent="." instance=ExtResource( 6 )]
+position = Vector2( 190, 32 )

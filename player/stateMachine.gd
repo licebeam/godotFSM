@@ -52,7 +52,6 @@ func getGravity():
 func setNotHurt():
 	transitionTo('idle')
 	hurt = false;
-	#mySprite.material.shader = null; #set to flashing 
 	invulnTimer = maxInvulnTimer;
 
 func knockBack():
@@ -122,8 +121,11 @@ func _process(delta):
 			
 	if invulnTimer >= 1: #if we are invulnerable count down. set by animation.
 		invulnTimer -= 1;
+		mySprite.modulate.a = 0.0 if Engine.get_frames_drawn() % 8 == 0 else 1.0
+		if invulnTimer <= 100: #if we are invulnerable count down. set by animation.
+			turnOffHitShader();
 		if invulnTimer <= 0: #if we are invulnerable count down. set by animation.
-			turnOffHitShader()
+			mySprite.modulate.a = 1
 
 func transitionTo(targetState):
 	var stateToChangeTo = targetState; # using animations to set this correctly. ie: lastState as a string

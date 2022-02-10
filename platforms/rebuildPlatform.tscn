@@ -1,0 +1,70 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://platforms/smallRebuildPlatformGBC.png" type="Texture" id=1]
+[ext_resource path="res://platforms/rebuildPlatform.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 4, 4 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "rebuild"
+length = 0.0166667
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 1 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "start"
+length = 0.0166667
+loop = true
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 4, 4 )
+
+[node name="rebuildPlatform" type="Node2D"]
+script = ExtResource( 2 )
+animator = NodePath("AnimationPlayer")
+body = NodePath("KinematicBody2D/CollisionShape2D")
+area = NodePath("Area2D")
+collider = NodePath("Area2D/CollisionShape2D")
+
+[node name="KinematicBody2D" type="KinematicBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+hframes = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/rebuild = SubResource( 2 )
+anims/start = SubResource( 3 )
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 4 )
