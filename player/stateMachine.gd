@@ -101,8 +101,9 @@ func _physics_process(delta):
 func getVelocityX():
 	if(get_node('../Sprite').flip_h):
 		return -velocity.x;
-	else: 
-		return velocity.x;
+	else:
+		return velocity.x;			
+
 		
 func _process(delta):
 	myBody = get_node(body);
@@ -114,11 +115,16 @@ func _process(delta):
 	
 	#handle hitbox - stuff that makes me take damage
 	var overlaps = collider.get_overlapping_areas()
-	if(overlaps.size() >= 1 && invulnTimer <= 0):
+	if(overlaps.size() >= 1):
 		for over in overlaps:
-			if(over.name == 'spireHitBox'):
+			# print(over.name)
+			#if(over.name == 'standZoneMove' && state.name != 'walk'):
+				#velocity.x += getVelocityX(over.get_parent().velocity.x);
+			if(over.name == 'spireHitBox' && invulnTimer <= 0):
 				transitionTo('hurt');
 				enemyBody = over.get_parent()
+			if(over.name == 'oneWayArea' && state.name == 'crouch' && Input.is_action_just_pressed('up')):
+				myBody.position = Vector2(myBody.position.x, myBody.position.y + 4)
 			
 	if invulnTimer >= 1: #if we are invulnerable count down. set by animation.
 		invulnTimer -= 1;

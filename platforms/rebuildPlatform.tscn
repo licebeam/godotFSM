@@ -50,6 +50,8 @@ animator = NodePath("AnimationPlayer")
 body = NodePath("KinematicBody2D/CollisionShape2D")
 area = NodePath("Area2D")
 collider = NodePath("Area2D/CollisionShape2D")
+maxBreakTime = 10
+maxRebuildTime = 60
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
 

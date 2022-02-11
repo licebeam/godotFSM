@@ -32,12 +32,12 @@ func update(delta):
 			speed += speedGain;
 			get_node('../../Sprite').set_flip_h(false);
 			if speed <= stateMachine.maxSpeed: 
-				stateMachine.velocity.x = speed;
+				stateMachine.velocity.x = stateMachine.maxSpeed;
 		elif Input.is_action_pressed('left'):
 			speed += speedGain;
 			get_node('../../Sprite').set_flip_h(true);
 			if speed <= stateMachine.maxSpeed: 
-				stateMachine.velocity.x = -speed;
+				stateMachine.velocity.x = -stateMachine.maxSpeed;
 				
 	if myBody.is_on_floor(): 
 		stateMachine.spawnDust();
