@@ -14,10 +14,10 @@
 [ext_resource path="res://hurt.gd" type="Script" id=13]
 [ext_resource path="res://mainCamera.gd" type="Script" id=14]
 
+[sub_resource type="ShaderMaterial" id=13]
+
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 3, 7 )
-
-[sub_resource type="ShaderMaterial" id=13]
 
 [sub_resource type="Animation" id=8]
 resource_name = "attack"
@@ -235,15 +235,15 @@ z_index = 1
 [node name="body" type="KinematicBody2D" parent="."]
 position = Vector2( 0, -21 )
 
-[node name="hitbox" type="CollisionShape2D" parent="body"]
-position = Vector2( 0, 1 )
-shape = SubResource( 1 )
-
 [node name="Sprite" type="Sprite" parent="body"]
 material = SubResource( 13 )
 texture = ExtResource( 5 )
 hframes = 17
 frame = 8
+
+[node name="hitbox" type="CollisionShape2D" parent="body"]
+position = Vector2( 0, 1 )
+shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="body"]
 root_node = NodePath("../..")
@@ -297,6 +297,7 @@ script = ExtResource( 14 )
 maxShakeTime = 8
 
 [node name="playerHurtBox" type="Area2D" parent="body"]
+visible = false
 position = Vector2( 0, 21 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="body/playerHurtBox"]
@@ -306,6 +307,7 @@ position = Vector2( 0, -19.5 )
 shape = SubResource( 10 )
 
 [node name="footBox" type="Area2D" parent="body"]
+visible = false
 position = Vector2( 0, 21 )
 
 [node name="footColliderBox" type="CollisionShape2D" parent="body/footBox"]

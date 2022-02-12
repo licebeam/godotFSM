@@ -25,7 +25,7 @@ func _process(delta):
 	if(overlaps.size() >= 1):
 		for over in overlaps:
 			#defaulting case for when the player walks
-			if(over.name == 'playerHurtBox' && !playerOn && player && player.state.name == 'idle'):
+			if(over.name == 'playerHurtBox' && !playerOn && player && player.state.name != 'walk' && player.state.name != 'jump'):
 				playerOn = true;
 				
 	if(player && playerOn && player.state.name != 'walk' && player.state.name != 'jump'):
@@ -53,9 +53,6 @@ func _process(delta):
 func _on_standZoneMove_area_entered(area):
 	if(area.name != 'width'):
 		player = get_node('/root/World/Player/body/stateMachine')
-		if(player.state.name != 'jump'):
-			playerOn = true;
-			print(area)
 	pass # Replace with function body.
 
 func _on_standZoneMove_area_exited(area):
