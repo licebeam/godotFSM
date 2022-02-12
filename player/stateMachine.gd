@@ -23,6 +23,9 @@ onready var state = get_node(initial_state);
 #save last state
 var lastState = 'idle';
 
+#SPECIAL VARS 
+var isOnMoving = false; #when touching a moving platform
+
 #Movement Variables - jump / falling from youtube tutorial.
 var velocity = Vector2.ZERO;
 export var jumpHeight = 30;
@@ -89,7 +92,7 @@ func _ready():
 
 func _physics_process(delta):
 	if(fallCoyote >= 1 && state.name != 'jump' && state.name != 'hurt'):
-		velocity.y = 0
+		velocity.y = 0;
 	else: 
 		velocity.y += getGravity() * delta;
 	myBody.move_and_slide(velocity, Vector2.UP);
@@ -118,8 +121,6 @@ func _process(delta):
 	if(overlaps.size() >= 1):
 		for over in overlaps:
 			# print(over.name)
-			#if(over.name == 'standZoneMove' && state.name != 'walk'):
-				#velocity.x += getVelocityX(over.get_parent().velocity.x);
 			if(over.name == 'spireHitBox' && invulnTimer <= 0):
 				transitionTo('hurt');
 				enemyBody = over.get_parent()
@@ -140,7 +141,7 @@ func transitionTo(targetState):
 		stateToChangeTo = lastState;
 		if(stateToChangeTo == 'jump'): 
 			stateToChangeTo = 'falling';
-		if(stateToChangeTo == 'walk'): # fixes bug when trasitioning between attack and chaning move direction.
+		if(stateToChangeTo == 'walk'): # fixes bug when trasitioning between attack and changing move direction.
 			stateToChangeTo = 'idle';
 	lastState = state.name;
 	if !has_node(stateToChangeTo): 

@@ -5,7 +5,7 @@ var myAnim;
 var myBody;
 var myHitBox;
 var speed = 0;
-var speedGain = 3;
+var speedGain = 10;
 
 func enter(body, animator): 
 	myBody = body;
@@ -32,12 +32,12 @@ func update(delta):
 			speed += speedGain;
 			get_node('../../Sprite').set_flip_h(false);
 			if speed <= stateMachine.maxSpeed: 
-				stateMachine.velocity.x = stateMachine.maxSpeed;
+				stateMachine.velocity.x = speed;
 		elif Input.is_action_pressed('left'):
 			speed += speedGain;
 			get_node('../../Sprite').set_flip_h(true);
 			if speed <= stateMachine.maxSpeed: 
-				stateMachine.velocity.x = -stateMachine.maxSpeed;
+				stateMachine.velocity.x = -speed;
 				
 	if myBody.is_on_floor(): 
 		stateMachine.spawnDust();

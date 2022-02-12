@@ -4,7 +4,7 @@ var stateMachine = null;
 var myAnim;
 var myBody;
 var speed = 0;
-var speedGain = 3;
+var speedGain = 10;
 
 func enter(body, animator): 
 	myBody = body;

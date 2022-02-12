@@ -72,3 +72,7 @@ shape = SubResource( 2 )
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="movingPlatformBody/width"]
 position = Vector2( -60, 0 )
 shape = SubResource( 2 )
+
+[connection signal="area_entered" from="movingPlatformBody/standZoneMove" to="movingPlatformBody" method="_on_standZoneMove_area_entered"]
+[connection signal="area_exited" from="movingPlatformBody/standZoneMove" to="movingPlatformBody" method="_on_standZoneMove_area_exited"]
+[connection signal="body_entered" from="movingPlatformBody/standZoneMove" to="movingPlatformBody" method="_on_standZoneMove_body_entered"]

@@ -3,7 +3,7 @@ extends Node
 var stateMachine = null;
 var myBody = null;
 var speed = 0;
-var speedGain = 3;
+var speedGain = 10;
 
 func enter(body, anim): 
 	myBody = body;
@@ -44,3 +44,4 @@ func update(delta):
 			speed = 0;
 			stateMachine.velocity.x = 0;
 			stateMachine.transitionTo('crouch');
+
