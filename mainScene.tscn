@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://player/stateMachine.gd" type="Script" id=2]
 [ext_resource path="res://player/idle.gd" type="Script" id=3]
@@ -189,7 +189,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=3]
 resource_name = "walk"
-length = 0.4
+length = 0.25
 loop = true
 step = 0.0166667
 tracks/0/type = "value"
@@ -199,7 +199,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.0666667, 0.133333, 0.2, 0.266667 ),
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3, 0 ]
@@ -211,12 +211,9 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0.0666667, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0.05 ),
+"transitions": PoolRealArray( 1 ),
 "values": [ {
-"args": [  ],
-"method": "spawnDust"
-}, {
 "args": [  ],
 "method": "spawnDust"
 } ]
@@ -227,6 +224,9 @@ extents = Vector2( 5, 7.5 )
 
 [sub_resource type="RectangleShape2D" id=14]
 extents = Vector2( 3, 8.5 )
+
+[sub_resource type="RectangleShape2D" id=15]
+extents = Vector2( 3, 1 )
 
 [node name="Player" type="Node2D"]
 position = Vector2( 31, 35 )
@@ -239,7 +239,6 @@ position = Vector2( 0, -21 )
 material = SubResource( 13 )
 texture = ExtResource( 5 )
 hframes = 17
-frame = 8
 
 [node name="hitbox" type="CollisionShape2D" parent="body"]
 position = Vector2( 0, 1 )
@@ -313,3 +312,11 @@ position = Vector2( 0, 21 )
 [node name="footColliderBox" type="CollisionShape2D" parent="body/footBox"]
 position = Vector2( 0, -18.5 )
 shape = SubResource( 14 )
+
+[node name="belowBox" type="Area2D" parent="body"]
+visible = false
+position = Vector2( 0, 21 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="body/belowBox"]
+position = Vector2( 0, -12 )
+shape = SubResource( 15 )

@@ -124,8 +124,6 @@ func _process(delta):
 			if(over.name == 'spireHitBox' && invulnTimer <= 0):
 				transitionTo('hurt');
 				enemyBody = over.get_parent()
-			if(over.name == 'oneWayArea' && state.name == 'crouch' && Input.is_action_just_pressed('up')):
-				myBody.position = Vector2(myBody.position.x, myBody.position.y + 4)
 			
 	if invulnTimer >= 1: #if we are invulnerable count down. set by animation.
 		invulnTimer -= 1;

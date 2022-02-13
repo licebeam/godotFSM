@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/superBasicTilesGBC.png-f71ca136e18df88d6345d9787de7c142.stex"
+path="res://.import/autoTile1GBC.png-6bac81939924a8067dc12732579f687e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://superBasicTilesGBC.png"
-dest_files=[ "res://.import/superBasicTilesGBC.png-f71ca136e18df88d6345d9787de7c142.stex" ]
+source_file="res://platforms/autoTile1GBC.png"
+dest_files=[ "res://.import/autoTile1GBC.png-6bac81939924a8067dc12732579f687e.stex" ]
 
 [params]
 
