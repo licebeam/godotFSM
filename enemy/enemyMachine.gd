@@ -42,6 +42,11 @@ onready var jumpVelocity = ((2.0 * jumpHeight) / jumpTimeToPeak) * -1.0;
 onready var jumpGravity = ((-2.0 * jumpHeight) / (jumpTimeToPeak * jumpTimeToPeak)) * -1.0;
 onready var fallGravity = ((-2.0 * jumpHeight) / (jumpTimeToDescent * jumpTimeToDescent)) * -1.0;
 
+#script extension vars
+var knockBackDisabled = false;
+var gravityDisabled = false;
+var screenShakeDisabled = false;
+
 func getGravity():
 	return jumpGravity if velocity.y < 0.0 else fallGravity;
 # Called when the node enters the scene tree for the first time.
@@ -52,17 +57,19 @@ func _ready():
 
 func destroySelf():
 	var camera = get_node('/root/World/Player/body/mainCamera')
-	camera.isShaking = true;
+	if(!screenShakeDisabled):
+		camera.isShaking = true;
 	spawnFireExplode()
 	myBody.queue_free();
 	
 func knockBack():
-	spawnDust()
-	var playerBody = get_node('/root/World/Player/body')
-	if playerBody.global_position.x > kinematic.global_position.x:
-		velocity.x = -8
-	if playerBody.global_position.x < kinematic.global_position.x:
-		velocity.x = 8
+	if(!knockBackDisabled):
+		spawnDust()
+		var playerBody = get_node('/root/World/Player/body')
+		if playerBody.global_position.x > kinematic.global_position.x:
+			velocity.x = -8
+		if playerBody.global_position.x < kinematic.global_position.x:
+			velocity.x = 8
 		
 func spawnDust():
 	# generate smoke puff.
@@ -102,11 +109,12 @@ func turnOffHitShader():
 	mySprite.material.shader = null;
 
 func _physics_process(delta):
-	if kinematic.is_on_floor():
-		velocity.y = 0
-	else:
-		velocity.y += getGravity() * delta;
-	kinematic.move_and_slide(velocity, Vector2.UP);
+	if !gravityDisabled: 
+		if kinematic.is_on_floor():
+			velocity.y = 0
+		else:
+			velocity.y += getGravity() * delta;
+		kinematic.move_and_slide(velocity, Vector2.UP);
 			
 func _process(delta):
 	myBody = get_node(body);
