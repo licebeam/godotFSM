@@ -28,11 +28,11 @@ var states = {
 	"attack": "attack",
 	"hurt": "hurt",
 	"crouch": "crouch",
-	"laststates": "laststates",
+	"lastState": "lastState",
 };
 
 #save last state
-var laststates = states.idle;
+var lastState = states.idle;
 
 #SPECIAL VARS 
 var isOnMoving = false; #when touching a moving platform
@@ -145,15 +145,15 @@ func _process(delta):
 		if invulnTimer <= 0: #if we are invulnerable count down. set by animation.
 			mySprite.modulate.a = 1
 
-func transitionTo(targetstates):
-	var stateToChangeTo = targetstates; # using animations to set this correctly. ie: laststates as a string
-	if(targetstates == states.laststates): #this handles cases where we want to transition back to a specific animation
-		stateToChangeTo = laststates;
+func transitionTo(targetState):
+	var stateToChangeTo = targetState; # using animations to set this correctly. ie: lastState as a string
+	if(targetState == states.lastState): #this handles cases where we want to transition back to a specific animation
+		stateToChangeTo = lastState;
 		if(stateToChangeTo == states.jump): 
 			stateToChangeTo = states.falling;
 		if(stateToChangeTo == states.walk): # fixes bug when trasitioning between attack and changing move direction.
 			stateToChangeTo = states.idle;
-	laststates = state.name;
+	lastState = state.name;
 
 	if !has_node(stateToChangeTo): 
 		return;
