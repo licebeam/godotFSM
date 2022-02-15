@@ -20,8 +20,19 @@ onready var mySprite = get_node(sprite);
 onready var anim = get_node(animator);
 onready var state = get_node(initial_state);
 
+var states = {
+	"idle": "idle",
+	"jump": "jump",
+	"falling": "falling",
+	"walk": "walk",
+	"attack": "attack",
+	"hurt": "hurt",
+	"crouch": "crouch",
+	"laststates": "laststates",
+};
+
 #save last state
-var lastState = 'idle';
+var laststates = states.idle;
 
 #SPECIAL VARS 
 var isOnMoving = false; #when touching a moving platform
@@ -52,8 +63,8 @@ var invulnTimer = 0;
 func getGravity():
 	return jumpGravity if velocity.y < 0.0 else fallGravity;
 
-func setNotHurt():
-	transitionTo('idle')
+func setNothurt():
+	transitionTo(states.idle)
 	hurt = false;
 	invulnTimer = maxInvulnTimer;
 
@@ -91,13 +102,14 @@ func _ready():
 	state.enter(myBody, anim);
 
 func _physics_process(delta):
-	if(fallCoyote >= 1 && state.name != 'jump' && state.name != 'hurt'):
+	if(fallCoyote >= 1 && ![states.jump, states.hurt].has(state.name)):
 		velocity.y = 0;
 	else: 
 		velocity.y += getGravity() * delta;
 	myBody.move_and_slide(velocity, Vector2.UP);
-	if !myBody.is_on_floor() && !state.name == 'jump' && !state.name == 'attack' && !state.name == 'hurt' && fallCoyote <= 0: #transition to fall if no state active.
-		transitionTo('falling');
+	
+	if !myBody.is_on_floor() && ![states.jump, states.attack, states.hurt].has(state.name) && fallCoyote <= 0: #transition to fall if no state active.
+		transitionTo(states.falling);
 	if myBody.is_on_ceiling(): #transition to fall if no state active.
 		velocity.y = 0;
 		
@@ -122,7 +134,7 @@ func _process(delta):
 		for over in overlaps:
 			# print(over.name)
 			if(over.name == 'spireHitBox' && invulnTimer <= 0):
-				transitionTo('hurt');
+				transitionTo(states.hurt);
 				enemyBody = over.get_parent()
 			
 	if invulnTimer >= 1: #if we are invulnerable count down. set by animation.
@@ -133,16 +145,16 @@ func _process(delta):
 		if invulnTimer <= 0: #if we are invulnerable count down. set by animation.
 			mySprite.modulate.a = 1
 
-func transitionTo(targetState):
-	var stateToChangeTo = targetState; # using animations to set this correctly. ie: lastState as a string
-	if(targetState == 'lastState'): #this handles cases where we want to transition back to a specific animation
-		#print(lastState)
-		stateToChangeTo = lastState;
-		if(stateToChangeTo == 'jump'): 
-			stateToChangeTo = 'falling';
-		if(stateToChangeTo == 'walk'): # fixes bug when trasitioning between attack and changing move direction.
-			stateToChangeTo = 'idle';
-	lastState = state.name;
+func transitionTo(targetstates):
+	var stateToChangeTo = targetstates; # using animations to set this correctly. ie: laststates as a string
+	if(targetstates == states.laststates): #this handles cases where we want to transition back to a specific animation
+		stateToChangeTo = laststates;
+		if(stateToChangeTo == states.jump): 
+			stateToChangeTo = states.falling;
+		if(stateToChangeTo == states.walk): # fixes bug when trasitioning between attack and changing move direction.
+			stateToChangeTo = states.idle;
+	laststates = state.name;
+
 	if !has_node(stateToChangeTo): 
 		return;
 	state.exit();
