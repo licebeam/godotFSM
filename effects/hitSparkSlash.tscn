@@ -35,7 +35,7 @@ tracks/1/keys = {
 }
 
 [node name="hitSparkSlash" type="Node2D"]
-z_index = 2
+z_index = 12
 script = ExtResource( 2 )
 animator = NodePath("AnimationPlayer")
 

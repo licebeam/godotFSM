@@ -14,34 +14,32 @@ func exit():
 	pass
 
 func update(delta):
-	if Input.is_action_pressed('right') && Input.is_action_pressed('left'):
-		# this conditional checks to make sure we aren't holding two keys at the same time.
+	if Input.is_action_just_pressed('action'):
+		stateMachine.transitionTo('attack')
+	if Input.is_action_just_pressed('up'):
+		stateMachine.transitionTo('jump')
+	if Input.is_action_pressed('right'):
+		speed += speedGain;
+		get_node('../../Sprite').set_flip_h(false);
+		get_node('../../playerWeapon/Sprite').set_flip_h(false);
+		if speed <= stateMachine.maxSpeed: 
+			stateMachine.velocity.x = speed;
+	elif Input.is_action_pressed('left'):
+		speed += speedGain;
+		get_node('../../Sprite').set_flip_h(true);
+		get_node('../../playerWeapon/Sprite').set_flip_h(true);
+		if speed <= stateMachine.maxSpeed: 
+			stateMachine.velocity.x = -speed;
+	else: 
 		stateMachine.transitionTo('idle');
-	else:
-		if Input.is_action_just_pressed('action'):
-			stateMachine.transitionTo('attack')
-		if Input.is_action_just_pressed('up'):
-			stateMachine.transitionTo('jump')
-		if Input.is_action_pressed('right'):
-			speed += speedGain;
-			get_node('../../Sprite').set_flip_h(false);
-			if speed <= stateMachine.maxSpeed: 
-				stateMachine.velocity.x = speed;
-		elif Input.is_action_pressed('left'):
-			speed += speedGain;
-			get_node('../../Sprite').set_flip_h(true);
-			if speed <= stateMachine.maxSpeed: 
-				stateMachine.velocity.x = -speed;
-		else: 
-			stateMachine.transitionTo('idle');
+	
+	if Input.is_action_just_released('right') || Input.is_action_just_released('left'):
+		speed = 0;
+		stateMachine.velocity.x = 0;
+		stateMachine.transitionTo('idle');
 		
-		if Input.is_action_just_released('right') || Input.is_action_just_released('left'):
-			speed = 0;
-			stateMachine.velocity.x = 0;
-			stateMachine.transitionTo('idle');
-			
-		if Input.is_action_pressed('down'):
-			speed = 0;
-			stateMachine.velocity.x = 0;
-			stateMachine.transitionTo('crouch');
+	if Input.is_action_pressed('down'):
+		speed = 0;
+		stateMachine.velocity.x = 0;
+		stateMachine.transitionTo('crouch');
 

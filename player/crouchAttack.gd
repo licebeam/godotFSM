@@ -11,6 +11,7 @@ func enter(body, animator):
 	myBody = body;
 	myAnim = animator;
 	myAnim.play('crouchAttack');
+	get_node('../../playerWeapon/anim').play('swing')
 	
 func exit(): 
 	pass

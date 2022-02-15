@@ -15,15 +15,15 @@ func kill():
 
 func setPosition(flip, crouch):
 	if crouch: 
-		position.y += 4
+		position.y += 2 # need to adjust for weapon stuff
 	else: 
 		position.y += 2
 	if(flip):
 		sprite.set_flip_h(true);
-		position.x -= 15;
+		position.x -= 14;
 	else: 
 		sprite.set_flip_h(false);
-		position.x += 15;
+		position.x += 14;
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

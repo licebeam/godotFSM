@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://mainScene.tscn" type="PackedScene" id=1]
 [ext_resource path="res://tilesets/superBasicTilesGBC.png" type="Texture" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://objects/lampScene.tscn" type="PackedScene" id=6]
 [ext_resource path="res://platforms/rebuildPlat24px.tscn" type="PackedScene" id=7]
 [ext_resource path="res://platforms/waterSurface.tscn" type="PackedScene" id=8]
+[ext_resource path="res://playerUI.tscn" type="PackedScene" id=9]
+[ext_resource path="res://enemy/sackKnight.tscn" type="PackedScene" id=10]
 
 [sub_resource type="Environment" id=6]
 resource_local_to_scene = true
@@ -211,6 +213,7 @@ position = Vector2( 36, -16 )
 
 [node name="waterSurface" parent="objects" instance=ExtResource( 8 )]
 position = Vector2( 116, 52 )
+z_index = 10
 
 [node name="waterSurface" parent="objects/waterSurface" instance=ExtResource( 8 )]
 position = Vector2( -8, 0 )
@@ -239,3 +242,8 @@ cell_size = Vector2( 8, 8 )
 cell_custom_transform = Transform2D( 8, 0, 0, 8, 0, 0 )
 format = 1
 tile_data = PoolIntArray( 393225, 1, 458754, 393226, 1, 458754, 393227, 1, 458754, 393228, 1, 458754, 393229, 1, 458754, 393230, 1, 458754 )
+
+[node name="playerUI" parent="." instance=ExtResource( 9 )]
+
+[node name="sackKnight" parent="." instance=ExtResource( 10 )]
+position = Vector2( -34, -9 )

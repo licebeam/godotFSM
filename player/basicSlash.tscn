@@ -35,14 +35,16 @@ tracks/1/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 10, 4 )
+extents = Vector2( 8, 4 )
 
 [node name="basicSlash" type="Node2D"]
+z_index = 3
 script = ExtResource( 1 )
 animator = NodePath("AnimationPlayer")
 mySprite = NodePath("Sprite")
 
 [node name="Sprite" type="Sprite" parent="."]
+visible = false
 texture = ExtResource( 2 )
 hframes = 4
 

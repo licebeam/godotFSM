@@ -135,7 +135,8 @@ func _process(delta):
 
 func transitionTo(targetState):
 	var stateToChangeTo = targetState; # using animations to set this correctly. ie: lastState as a string
-	if(targetState == 'lastState'): #this handles cases where we want to transition back to jump
+	if(targetState == 'lastState'): #this handles cases where we want to transition back to a specific animation
+		#print(lastState)
 		stateToChangeTo = lastState;
 		if(stateToChangeTo == 'jump'): 
 			stateToChangeTo = 'falling';

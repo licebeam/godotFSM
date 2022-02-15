@@ -16,7 +16,7 @@ export(NodePath) var area2d;
 onready var collider = get_node(area2d);
 
 var hurt = false;
-var health = 10;
+var health = 1000;
 
 onready var myBody = get_node(body);
 onready var kinematic = get_node(kbody);

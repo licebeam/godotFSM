@@ -31,11 +31,13 @@ func update(delta):
 		if Input.is_action_pressed('right'):
 			speed += speedGain;
 			get_node('../../Sprite').set_flip_h(false);
+			get_node('../../playerWeapon/Sprite').set_flip_h(false);
 			if speed <= stateMachine.maxSpeed: 
 				stateMachine.velocity.x = speed;
 		elif Input.is_action_pressed('left'):
 			speed += speedGain;
 			get_node('../../Sprite').set_flip_h(true);
+			get_node('../../playerWeapon/Sprite').set_flip_h(true);
 			if speed <= stateMachine.maxSpeed: 
 				stateMachine.velocity.x = -speed;
 				
