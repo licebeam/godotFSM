@@ -10,7 +10,7 @@ func exit():
 
 func update(delta):
 	if Input.is_action_just_pressed('action'):
-		stateMachine.transitionTo('attack')
+		stateMachine.transitionTo(stateMachine.state.attack);
 	
 	if(stateMachine.velocity.x > 0):
 		stateMachine.velocity.x -= stateMachine.velocity.x / stateMachine.slideStop;
@@ -19,9 +19,9 @@ func update(delta):
 		
 
 	if Input.is_action_just_pressed('up'):
-		stateMachine.transitionTo('jump')
+		stateMachine.transitionTo(stateMachine.state.jump);
 	if Input.is_action_pressed('down'):
-		stateMachine.transitionTo('crouch');
+		stateMachine.transitionTo(stateMachine.states.crouch);
 	if Input.is_action_pressed('left') || Input.is_action_pressed('right'):
-		stateMachine.transitionTo('walk');
+		stateMachine.transitionTo(stateMachine.states.walk);
 	pass
